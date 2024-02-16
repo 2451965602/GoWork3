@@ -8,6 +8,7 @@ require (
 	github.com/apache/thrift v0.0.0-00010101000000-000000000000
 	github.com/cloudwego/hertz v0.8.0
 	github.com/hertz-contrib/jwt v1.0.2
+	golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2
 	gorm.io/driver/mysql v1.5.2
 	gorm.io/gorm v1.25.6
 )

@@ -23,7 +23,6 @@ func Register(ctx context.Context, c *app.RequestContext) {
 		pack.SendFailResponse(c, err)
 		return
 	}
-
 	resp := new(user.RegisterResponse)
 
 	userResp, err := service.NewUserService(ctx, c).Register(&req)

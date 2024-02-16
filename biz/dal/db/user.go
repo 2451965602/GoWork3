@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"work3/pkg/constants"
+	"work3/pkg/utils/pwd"
 )
 
 func CreateUser(ctx context.Context, username, password string) (*User, error) {
@@ -25,9 +26,15 @@ func CreateUser(ctx context.Context, username, password string) (*User, error) {
 		return nil, errors.New("用户名已存在")
 	}
 
+	pwd, err := utils.PasswordHash(password)
+
+	if err != nil {
+		return nil, err
+	}
+
 	userResp = &User{
 		Username: username,
-		Password: password,
+		Password: pwd,
 	}
 
 	err = DB.
@@ -39,6 +46,8 @@ func CreateUser(ctx context.Context, username, password string) (*User, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	userResp.Password = password
 
 	return userResp, nil
 }
@@ -57,9 +66,13 @@ func LoginCheck(ctx context.Context, username, password string) (*User, error) {
 		return nil, errors.New("账号错误")
 	}
 
-	if userResp.Password != password {
+	if !utils.PasswordVerify(password, userResp.Password) {
 		return nil, errors.New("密码错误")
 	}
+
+	//if userResp.Password != password {
+	//	return nil, errors.New("密码错误")
+	//}
 
 	return userResp, nil
 }
